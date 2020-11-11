@@ -1,0 +1,35 @@
+﻿@page
+@model BRD_Music_Sem.Pages.GroupList
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Список групп</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+<div>
+     <table class="table">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Год основания</th>
+                <th>Жанр</th>
+                <th>Вокалист</th>
+                <th>Гитарист</th>
+                <th>Бас-гитарист</th>
+                <th>Барабанщик</th>
+                <th>Пианист</th>
+                <th>Виоланчелист</th>
+                <th>Игрок на треугольнике</th>
+            </tr>
+            </thead>
+            <tbody id="Data">
+            <!-- Сюда соответственно из js'а аяксом будут треки засовываться. Название является линком
+            и имеет класс btn btn-link -->
+            </tbody>
+        </table>
+</div>
+</body>
+</html>
