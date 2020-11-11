@@ -1,0 +1,46 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+</head>
+<body style="background: #edeef0">
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать на фан сайт трешовых музыкальных групп</h1>
+    <h3 class="display-4">Сегодняшняя подборка</h3>
+</div>
+    <!-- Вот в этот див складываем треки -->
+<div class="row" id="data">
+    <!-- По следующему паттерну отправляем треки где ** название трека на английском без пробела
+                - должно быть в базе и при стартапе доставаться в коллекцию-->
+    <div class="col">
+        <form id="**" style="display: flex;background: #0f6674;border: #1b1e21;border-radius: 3px;">
+            <button class ="btn btn-primary" id="play_**">play</button>
+            <p>**</p>
+        </form>
+    </div>
+    <div class="col">
+        <form id="**" style="display: flex;background: #0f6674;border: #1b1e21;border-radius: 3px;">
+            <button class ="btn btn-primary" id="play_**">play</button>
+            <p>**</p>
+        </form>
+    </div>
+    <div class="col">
+        <form id="**" style="display: flex;background: #0f6674;border: #1b1e21;border-radius: 3px;">
+            <button class ="btn btn-primary" id="play_**">play</button>
+            <p>**</p>
+        </form>
+    </div>
+    <div class="col">
+        <form id="**"  style="display: flex;background: #0f6674;border: #1b1e21;border-radius: 3px;">
+            <button class ="btn btn-primary" id="play_**">play</button>
+            <p>**</p>
+        </form>
+    </div>
+</div>
+</body>
+</html>
