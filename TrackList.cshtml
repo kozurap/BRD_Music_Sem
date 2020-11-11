@@ -1,0 +1,32 @@
+﻿@page
+@model BRD_Music_Sem.Pages.TrackList
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Список треков</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+<div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Автор</th>
+            <th>Название</th>
+            <th>Год выпуска</th>
+          </tr>
+        </thead>
+        <tbody id="Data">
+        <!-- Сюда соответственно из js'а аяксом будут треки засовываться. Название является линком
+         и имеет класс btn btn-link -->
+        </tbody>
+      </table>
+</div>
+</body>
+</html>
