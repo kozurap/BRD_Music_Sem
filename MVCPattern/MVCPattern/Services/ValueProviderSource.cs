@@ -6,7 +6,8 @@ namespace ProjectArt.MVCPattern.Services
 {
     public abstract class ValueProviderSource
     {
-        public Dictionary<string, StringValues> _data;
+        private Dictionary<string, StringValues> _data;
+        private List<IFormFile> _files;
 
         public Dictionary<string, StringValues> Data
         {
@@ -17,6 +18,17 @@ namespace ProjectArt.MVCPattern.Services
                 return _data;
             }
             set => _data = value;
+        }
+        
+        public List<IFormFile> Files
+        {
+            get
+            {
+                if(_files == null)
+                    _files = new List<IFormFile>();
+                return _files;
+            }
+            set => _files = value;
         }
 
         public abstract void Load(HttpContext context);

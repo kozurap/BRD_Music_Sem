@@ -18,6 +18,8 @@ namespace ProjectArt.MVCPattern
 {
     public class DefaultActionActivator : IActionActivator
     {
+        private HashSet<Type> _visitedTypes;
+        
         public ValueBindingResult BindObject(Type objType, string name, ValueProvider valueProvider, ModelBindingStateBuilder currentBindingStateBuilder)
         {
             var resolvedType = Nullable.GetUnderlyingType(objType) ??
@@ -30,6 +32,17 @@ namespace ProjectArt.MVCPattern
                 suffix = string.Concat(suffix.SkipWhile(c => c != '.').Skip(1));
             }
 
+            if (resolvedType == typeof(IFormFile))
+            {
+                if(valueProvider.GetFiles().Count > 0)
+                    return new ValueBindingResult(true, valueProvider.GetFiles()[0], resolvedType);
+                return new ValueBindingResult(false, null, resolvedType);
+            }
+            
+            if (resolvedType == typeof(List<IFormFile>))
+                return new ValueBindingResult(true, valueProvider.GetFiles().ToList(), resolvedType);
+            
+            
             try
             {
                 if (value == null) throw new Exception();
@@ -62,10 +75,15 @@ namespace ProjectArt.MVCPattern
                 }
                 catch
                 {
+                    if(_visitedTypes.Contains(resolvedType))
+                        return new ValueBindingResult(false, null, resolvedType);
+                    
                     var ctor = resolvedType.GetConstructor(Type.EmptyTypes);
                     if (ctor == null) return new ValueBindingResult(false, null, resolvedType);
                     var result = Activator.CreateInstance(resolvedType);
                     var innerModelStateBuilder = new ModelBindingStateBuilder();
+                    
+                    _visitedTypes.Add(resolvedType);
                     foreach (var f in resolvedType.GetFields().Where(f => f.IsPublic))
                     {
                         var obj = BindObject(f.FieldType, $"{name}.{f.Name}".ToLower(), valueProvider, innerModelStateBuilder);
@@ -76,8 +94,12 @@ namespace ProjectArt.MVCPattern
                         }
                         else
                         {
-                            if(f.GetCustomAttribute<RequiredAttribute>() != null)
+                            if (f.GetCustomAttribute<RequiredAttribute>() != null)
+                            {
+                                _visitedTypes.Remove(resolvedType);
                                 return new ValueBindingResult(false, null, resolvedType);
+                            }
+
                             innerModelStateBuilder.SetFailed(f.Name);
                         }
                     }
@@ -92,11 +114,17 @@ namespace ProjectArt.MVCPattern
                         }
                         else
                         {
-                            if(p.GetCustomAttribute<RequiredAttribute>() != null)
+                            if (p.GetCustomAttribute<RequiredAttribute>() != null)
+                            {
+                                _visitedTypes.Remove(resolvedType);
                                 return new ValueBindingResult(false, null, resolvedType);
+                            }
+
                             innerModelStateBuilder.SetFailed(p.Name);
                         }
                     }
+                    
+                    _visitedTypes.Remove(resolvedType);
 
                     var validateMethod = resolvedType.GetMethods().FirstOrDefault(method =>
                         method.GetCustomAttribute<ValidateMethodAttribute>() != null
@@ -132,11 +160,13 @@ namespace ProjectArt.MVCPattern
             builder.Add<QueryValueProviderSource>();
             builder.Add<FormValueProviderSource>();
             builder.Add<FormDataJsonValueProviderSource>();
+            builder.Add<FormFilesProviderSource>();
 
             var valueProvider = builder.Build();
             
             foreach (var parameter in paramInfos)
             {
+                _visitedTypes = new HashSet<Type>();
                 var result = BindObject(parameter.ParameterType, parameter.Name.ToLower(), valueProvider, stateBuilder);
                 if (result.IsSuccessful)
                 {

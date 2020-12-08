@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -69,9 +70,15 @@ namespace ProjectArt.MVCPattern.Services
             {
                 return findViewResult.View;
             }
+
+            var searchedLocations = new StringBuilder();
+            foreach (var location in getViewResult.SearchedLocations)
+                searchedLocations.Append($"{location}\n");
             
+            foreach (var location in findViewResult.SearchedLocations)
+                searchedLocations.Append($"{location}\n");
             throw new InvalidOperationException(
-                $"View '{viewName}'Does not exist in directories {getViewResult.SearchedLocations}{findViewResult.SearchedLocations}");
+                $"View '{viewName}' does not exist in directories {searchedLocations}");
         }
     }
 }

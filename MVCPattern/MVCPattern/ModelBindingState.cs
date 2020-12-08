@@ -14,6 +14,7 @@ namespace ProjectArt.MVCPattern
         {
             get
             {
+                state = state.ToLower();
                 if (_states.ContainsKey(state))
                     return _states[state];
                 return null;
@@ -71,10 +72,10 @@ namespace ProjectArt.MVCPattern
             {
                 if (_isAllSet == null)
                 {
+                    _isAllSet = true;
                     foreach (var isSet in _isSet)
                         if (!isSet.Value)
                             _isAllSet = false;
-                    _isAllSet = true;
                 }
 
                 return _isAllSet.Value;
@@ -88,11 +89,11 @@ namespace ProjectArt.MVCPattern
             {
                 if (_isAllSetCascade == null)
                 {
-                    if (!IsAllSet) _isAllSetCascade = false;
-                    foreach (var isAllSet in _states.Values.Select(state => state.IsAllSet))
-                        if (!isAllSet)
-                            _isAllSetCascade = false;
                     _isAllSetCascade = true;
+                    if (!IsAllSet) _isAllSetCascade = false;
+                    foreach (var isAllSetCascade in _states.Values.Select(state => state.IsAllSetCascade))
+                        if (!isAllSetCascade)
+                            _isAllSetCascade = false;
                 }
 
                 return _isAllSetCascade.Value;

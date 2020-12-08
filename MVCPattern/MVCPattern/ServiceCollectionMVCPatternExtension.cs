@@ -17,8 +17,8 @@ namespace ProjectArt.MVCPattern
             var physicalFileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
             services.AddSingleton(physicalFileProvider);
             services.AddScoped<IViewRenderService, ViewRenderService>();
-            services.AddSingleton<IControllerActivator, DefaultControllerActivator>();
-            services.AddSingleton<IActionActivator, DefaultActionActivator>();
+            services.AddTransient<IControllerActivator, DefaultControllerActivator>();
+            services.AddTransient<IActionActivator, DefaultActionActivator>();
             foreach (var actionResultClass in Assembly.GetExecutingAssembly().GetTypes()
                 .Where(type => type.GetInterfaces().Contains(typeof(IActionResult))))
             {

@@ -31,7 +31,8 @@ namespace ProjectArt.MVCPattern.ActionResults
         {
             var response = controller.Context.Response;
 
-            ViewName ??= (string)controller.RouteValues["action"];
+            if(string.IsNullOrEmpty(ViewName))
+                ViewName = (string)controller.RouteValues["action"];
             
             if(ViewRenderService == null) 
                 ViewRenderService = controller.Context.RequestServices.GetService<IViewRenderService>();

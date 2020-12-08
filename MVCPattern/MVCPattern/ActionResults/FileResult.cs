@@ -26,10 +26,7 @@ namespace ProjectArt.MVCPattern.ActionResults
                 throw new ArgumentNullException(nameof(path));
             
             ContentType = contentType;
-            
-            if(string.IsNullOrEmpty(contentType)) 
-                throw new ArgumentNullException(nameof(contentType));
-            
+
             StatusCode = statusCode;
             FileProvider = fileProvider;
         }
@@ -38,17 +35,20 @@ namespace ProjectArt.MVCPattern.ActionResults
         {
             var contentTypeProvider = new FileExtensionContentTypeProvider();
             var response = controller.Context.Response;
-            if (ContentType == null)
+            if (string.IsNullOrWhiteSpace(ContentType))
                 if (!string.IsNullOrEmpty(response.ContentType)) ContentType = response.ContentType;
                 else if (contentTypeProvider.TryGetContentType(Path, out var resolvedContentType))
                     ContentType = resolvedContentType;
                 else ContentType = _defaultContentType;
             response.ContentType = ContentType;
             if (StatusCode != null)  response.StatusCode = StatusCode.Value;
-            var fileStream = FileProvider.GetFileInfo(Path).CreateReadStream();
-            response.ContentLength = fileStream.Length;
-            await fileStream.CopyToAsync(response.Body);
             
+            using (var fileStream = FileProvider.GetFileInfo(Path).CreateReadStream())
+            {
+                response.ContentLength = fileStream.Length;
+                await fileStream.CopyToAsync(response.Body);
+            }
+
             await response.CompleteAsync();
         }
     }

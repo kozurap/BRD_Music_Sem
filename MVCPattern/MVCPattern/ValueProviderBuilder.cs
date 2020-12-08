@@ -26,15 +26,18 @@ namespace ProjectArt.MVCPattern
 
         public ValueProvider Build()
         {
-            var result = new Dictionary<string, StringValues>();
+            var data = new Dictionary<string, StringValues>();
+            var files = new List<IFormFile>();
             foreach (var source in _sources)
             {
                 source.Load(_context);
                 foreach (var pair in source.Data)
-                    result.TryAdd(pair.Key.ToLower(), pair.Value);
+                    data.TryAdd(pair.Key.ToLower(), pair.Value);
+                foreach(var file in source.Files)
+                    files.Add(file);
             }
 
-            return new ValueProvider(result);
+            return new ValueProvider(data, files);
         }
     }
 }

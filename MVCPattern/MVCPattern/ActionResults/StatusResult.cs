@@ -14,9 +14,10 @@ namespace ProjectArt.MVCPattern.ActionResults
             StatusCode = statusCode;
         }
 
-        public Task ExecuteResult(Controller controller)
+        public async Task ExecuteResult(Controller controller)
         {
-            return new Task(() => controller.Response.StatusCode = StatusCode);
+            controller.Response.StatusCode = StatusCode;
+            await controller.Response.CompleteAsync();
         }
     }
 }
