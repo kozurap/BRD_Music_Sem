@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Список групп</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                </tr>
+            </thead>
+            <tbody id="GData">
+                <!-- Сюда соответственно из js'а аяксом будут треки засовываться. Название является линком
+                и имеет класс btn btn-link -->
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form action="https://localhost:44321/GroupList" method="post">
+            <input type="text" name="Author" id="PostName" placeholder="Исполнитель" required>
+            <button formmethod="post">Добавить Исполнителя</button>
+        </form>
+    </div>
+    <div>
+        <input type="text" name="Name" id="SearchGr" placeholder="Название Группы" required>
+        <button id="FindGroup">Post</button>
+        <h3 class="display-4">Результаты поиска:</h3>
+    </div>
+
+    <div>
+        <table id="SrcGrTable" class="table table-light">
+            <thead>
+                <tr>
+                    <th scope="col">Автор</th>
+                </tr>
+            </thead>
+            <tbody id="GSData">
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

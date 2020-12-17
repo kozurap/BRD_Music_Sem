@@ -1,0 +1,25 @@
+﻿@model BRD_Music_Sem.Models.ViewModel.GroupViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<div id="Group">
+    <p>Название: @Model.Name</p>
+    <p>Треки</p>
+    <table id="GroupSongs" class="table table-light">
+        <thead>
+            <tr>
+                <th scope="col">Название Трека</th>
+            </tr>
+        </thead>
+        <tbody id="GSData">
+            @foreach (var item in @Model.Tracks)
+            {
+                <tr><td>@item</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

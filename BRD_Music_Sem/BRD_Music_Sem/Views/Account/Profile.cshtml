@@ -1,0 +1,11 @@
+﻿@model BRD_Music_Sem.Models.ViewModel.ProfileViewModel
+<div id="Prof">
+    <form action="https://localhost:44321/Account/@Model.UserId/Image" method="post">
+        <p><img src="https://localhost:44321/Account/@Model.UserId/Image" /></p>
+    </form>
+    <p>Имя: @Model.Name</p>
+    <p>Фамилия: @Model.Surname</p>
+    <p>Почта: @Model.Email</p>
+    <a href="@Url.Content("~/Account/Profile/" + Model.UserId + "/ProfileEdit")" style="color: black">Редактировать</a>
+    <a href="@Url.Content("~/Logout")" style="color: black">Выйти</a>
+</div>

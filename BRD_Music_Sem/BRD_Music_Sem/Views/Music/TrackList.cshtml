@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Список треков</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+        </tr>
+        </thead>
+        <tbody id="TData">
+        <!-- Сюда соответственно из js'а аяксом будут треки засовываться. Название является линком
+        и имеет класс btn btn-link -->
+        </tbody>
+    </table>
+</div>
+    <div>
+    <form action="https://localhost:44321/TrackList" method="post">
+        <input type="text" name="Name" id="PostDisc"  placeholder="Название" required>
+        <input type="text" name="Author" id="PostName" placeholder="Исполнитель" required>
+        <button id="MakeRec" formmethod="post">Добавить Трек</button>
+    </form>
+</div>
+<div>
+    <input type="text" name="Name" id="SearchName" placeholder="Название" required>
+    <button id="FindTrack">Post</button>
+    <h3 class="display-4">Результаты поиска:</h3>
+</div>
+
+<div>
+    <table id="SrcTable" class="table table-light">
+        <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Автор</th>
+            </tr>
+        </thead>
+        <tbody id="TSData">
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
