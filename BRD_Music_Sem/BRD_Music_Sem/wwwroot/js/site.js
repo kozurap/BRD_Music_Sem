@@ -62,7 +62,7 @@ $(document).ready(function () {
             table.deleteRow(0);
         }
         let str;
-        data.map(item => str += `<tr><td><a href="">${item.Author}</a></td></tr>`);
+        data.map(item => str += `<tr><td><a href="/GroupList/${item.Author}">${item.Author}</a></td></tr>`);
         $("#GSData").append(str)
     };
     $("#FindGroup").on("click", function () {
